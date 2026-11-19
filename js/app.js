@@ -120,10 +120,11 @@ $("go").onclick = async () => {
   $("barTxt").textContent = "";
   let transport;
   try {
-    const job = await collectFiles();
-    const total = job.files.reduce((a, f) => a + f.data.length, 0);
+    // chọn cổng NGAY khi bấm nút (trình duyệt chỉ cho mở hộp chọn cổng trong lúc người dùng vừa bấm)
     $("stat").textContent = "Chọn cổng COM của mạch…";
     const port = await navigator.serial.requestPort();
+    const job = await collectFiles();
+    const total = job.files.reduce((a, f) => a + f.data.length, 0);
     transport = new Transport(port, false);
     const loader = new ESPLoader({ transport, baudrate: +$("baud").value, romBaudrate: 115200, terminal: term });
     $("stat").textContent = "Đang kết nối chip…";
@@ -157,7 +158,11 @@ $("go").onclick = async () => {
     $("barTxt").textContent = "Mở tab Serial Monitor để xem log, hoặc kết nối Wi-Fi KHA-Printer-xxxx (mật khẩu 12345678) → http://192.168.4.1";
   } catch (e) {
     const m = e && e.message ? e.message : String(e);
-    if (/No port selected|cancel/i.test(m)) { $("stat").textContent = "Đã hủy chọn cổng"; }
+    if (/No port selected|cancel/i.test(m)) {
+      $("stat").textContent = "Chưa chọn cổng COM. Không thấy cổng nào trong danh sách? Cài driver ở tab Driver USB hoặc đổi cáp USB.";
+    } else if (/user gesture/i.test(m)) {
+      $("stat").textContent = "Trình duyệt chặn hộp chọn cổng - bấm lại nút Kết nối & Nạp firmware";
+    }
     else {
       log("LỖI: " + m, "err");
       $("stat").innerHTML = `<span class="err">✘ ${esc(m)}</span>`;

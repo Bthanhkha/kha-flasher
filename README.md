@@ -1,15 +1,12 @@
-# KHA Firmware – trang nạp firmware trên trình duyệt
+# Kho cấu hình máy in KHA (GitHub Pages)
 
-Trang tĩnh (HTML + JS), chạy miễn phí trên **GitHub Pages**. Nạp firmware ESP32 qua cổng COM bằng Web Serial (Chrome / Edge), dùng thư viện esptool-js (Apache-2.0) của Espressif.
+Trang công khai **chỉ chứa tệp cấu hình máy in (.khd)** đã ký + mã hóa – **không có firmware, không có mã nguồn**.
+Firmware gốc được KHA nạp sẵn trước khi giao thiết bị (công cụ nội bộ `kha-tools/flasher`).
 
-## Đưa lên mạng (một lần)
-1. GitHub → **New repository** → tên `kha-flasher` → **Public** → Create.
-2. Trong repo vừa tạo, chọn **uploading an existing file** → kéo **toàn bộ nội dung** thư mục này (index.html, style.css, catalog.json, các thư mục js/, firmware/) → **Commit changes**.
-3. **Settings → Pages** → Source: **Deploy from a branch** → Branch: **main**, thư mục **/(root)** → Save.
-4. Sau 1-2 phút trang chạy tại: `https://bthanhkha.github.io/kha-flasher/`
+- Địa chỉ: https://bthanhkha.github.io/kha-flasher/
+- Thiết bị (firmware ≥ 1.8.3) tải trực tiếp: `configs/index.json` + `configs/<id>.khd`
 
-## Cập nhật firmware mới
-`python ../kha-tools/flasher_publish.py 1.8.3` (sau khi build) → tải lại các tệp trong `firmware/kha-printer/` và `catalog.json` lên repo.
-
-## Thêm firmware khác
-Thêm thư mục `firmware/<tên>/` và một mục trong `catalog.json` (`parts`: danh sách tệp + địa chỉ nạp).
+## Cập nhật kho
+1. Thêm/sửa cấu hình trong `kha-tools/profiles/` (đặt `"public": false` nếu không muốn đăng công khai).
+2. `python kha-tools/khd_tool.py web` (hoặc menu số 6) → tạo lại thư mục `configs/`.
+3. Tải thư mục `configs/` lên repo (ghi đè).

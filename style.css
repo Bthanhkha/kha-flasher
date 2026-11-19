@@ -55,3 +55,4 @@ pre{white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,Consolas
 .prose li{margin:6px 0}
 code{background:#f1f5f9;padding:1px 5px;border-radius:4px}
 footer{padding:18px 16px 30px;font-size:13px}
+.note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;border-radius:10px;padding:10px 14px;margin:0 0 12px}

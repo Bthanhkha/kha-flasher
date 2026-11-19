@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KHA Firmware – Nạp firmware ESP32 trên trình duyệt</title>
-<meta name="description" content="Nạp firmware KHA cho ESP32-S3 trực tiếp trên trình duyệt Chrome/Edge, không cần cài phần mềm.">
+<title>KHA – Kho cấu hình máy in</title>
+<meta name="description" content="Tải cấu hình máy in cho thiết bị KHA Printer: Canon LBP, HP, Brother…">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Crect width='44' height='44' rx='10' fill='%230b5cab'/%3E%3Ctext x='22' y='28' text-anchor='middle' font-family='Arial' font-weight='800' font-size='14' fill='%23fff'%3EKHA%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -13,129 +13,50 @@
   <div class="wrap hd">
     <div class="brand">
       <svg width="42" height="42" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="10" fill="#0b5cab"/><rect x="12" y="7" width="20" height="9" rx="1.5" fill="#fff" opacity=".85"/><rect x="6" y="15" width="32" height="15" rx="3" fill="#fff"/><text x="22" y="26" text-anchor="middle" font-family="Arial" font-weight="800" font-size="10.5" fill="#0b5cab">KHA</text><rect x="12" y="29" width="20" height="8" rx="1" fill="#fff" opacity=".85"/></svg>
-      <div><b>KHA Firmware</b><small>Nạp firmware ESP32 ngay trên trình duyệt – không cần cài phần mềm</small></div>
+      <div><b>Kho cấu hình máy in KHA</b><small>Cấu hình cho thiết bị KHA Printer theo từng dòng máy in</small></div>
     </div>
     <nav id="nav">
-      <button data-t="flash" class="on">Nạp firmware</button>
-      <button data-t="mon">Serial Monitor</button>
-      <button data-t="drv">Driver USB</button>
-      <button data-t="help">Hướng dẫn</button>
+      <button data-t="list" class="on">Cấu hình máy in</button>
+      <button data-t="help">Cách cài đặt</button>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
-  <div id="nosupport" class="warn" hidden>
-    Trình duyệt này không hỗ trợ kết nối cổng COM (Web Serial). Hãy mở trang bằng <b>Google Chrome</b> hoặc <b>Microsoft Edge</b> trên máy tính (Windows, macOS, Linux).
-  </div>
-
-  <!-- ===== NẠP FIRMWARE ===== -->
-  <section id="flash" class="on">
-    <div class="sub">
-      <button data-s="lib" class="on">Kho firmware</button>
-      <button data-s="own">Tệp .bin riêng</button>
-      <span class="sel">Đã chọn: <b id="selName">—</b></span>
+  <section id="list" class="on">
+    <div class="filters">
+      <input id="q" placeholder="Tìm theo tên máy in (vd: LBP2900, HP, Brother…)">
+      <select id="fam"><option value="">Mọi họ máy</option></select>
     </div>
-
-    <div id="lib" class="subpane on">
-      <div class="filters">
-        <input id="q" placeholder="Tìm firmware (máy in, Canon, AirPrint…)">
-        <select id="chip"><option value="">Mọi dòng chip</option></select>
-      </div>
-      <div id="cards" class="cards"></div>
+    <div class="note">Đây là các tệp <b>cấu hình máy in</b> (.khd) đã ký số của KHA, không phải firmware. Thiết bị KHA Printer đã được cài firmware sẵn khi giao. Bạn chỉ cần cài cấu hình đúng dòng máy in của mình.</div>
+    <div id="cards" class="cards"></div>
+    <div class="panel row">
+      <div style="flex:1"><b>Gói tổng – tất cả cấu hình</b><div class="mut">Nạp một lần, thiết bị tự chọn cấu hình hợp với máy in đang cắm.</div></div>
+      <a class="btn" id="bundle" href="#" download>Tải gói tổng (.khd)</a>
     </div>
-
-    <div id="own" class="subpane">
-      <p class="mut">Chọn tệp .bin và địa chỉ nạp. Tệp gộp toàn bộ (FULL_0x0) nạp ở địa chỉ <code>0x0</code>.</p>
-      <div id="ownRows"></div>
-      <button class="btn g" id="addRow">+ Thêm tệp</button>
-    </div>
-
-    <div class="panel">
-      <div class="row">
-        <label>Tốc độ nạp
-          <select id="baud"><option>921600</option><option selected>460800</option><option>230400</option><option>115200</option></select>
-        </label>
-        <label class="chk"><input type="checkbox" id="erase"> Xóa sạch bộ nhớ trước khi nạp <span class="mut">(mất cài đặt Wi-Fi và cấu hình đã lưu)</span></label>
-      </div>
-      <div class="row">
-        <button class="btn big" id="go">⚡ Kết nối &amp; Nạp firmware</button>
-        <span id="stat" class="mut"></span>
-      </div>
-      <div class="bar"><i id="bar"></i></div>
-      <div id="barTxt" class="mut"></div>
-    </div>
-
-    <details class="logs" open>
-      <summary>Nhật ký nạp</summary>
-      <pre id="log"></pre>
-    </details>
+    <p class="mut" id="upd"></p>
   </section>
 
-  <!-- ===== SERIAL MONITOR ===== -->
-  <section id="mon">
-    <div class="panel">
-      <div class="row">
-        <label>Tốc độ
-          <select id="mBaud"><option>9600</option><option selected>115200</option><option>230400</option><option>460800</option><option>921600</option></select>
-        </label>
-        <button class="btn" id="mConn">Kết nối</button>
-        <button class="btn g" id="mReset" disabled>Khởi động lại thiết bị</button>
-        <button class="btn g" id="mClear">Xóa màn hình</button>
-        <button class="btn g" id="mSave">Lưu log</button>
-        <label class="chk"><input type="checkbox" id="mScroll" checked> Tự cuộn</label>
-        <label class="chk"><input type="checkbox" id="mTime"> Hiện giờ</label>
-        <span id="mStat" class="mut"></span>
-      </div>
-    </div>
-    <pre id="term" class="term"></pre>
-    <div class="row send">
-      <input id="mIn" placeholder="Gõ lệnh rồi Enter để gửi" disabled>
-      <select id="mEol"><option value="\n">LF</option><option value="\r\n" selected>CR+LF</option><option value="\r">CR</option><option value="">Không</option></select>
-      <button class="btn" id="mSend" disabled>Gửi</button>
-    </div>
-  </section>
-
-  <!-- ===== DRIVER ===== -->
-  <section id="drv">
-    <div class="cards">
-      <div class="card">
-        <h3>CH340 / CH341 (WCH)</h3>
-        <p>Chip USB-UART phổ biến trên mạch ESP32 giá rẻ. Windows báo "USB-SERIAL CH340".</p>
-        <a class="btn" href="https://www.wch-ic.com/downloads/CH341SER_EXE.html" target="_blank" rel="noopener">Tải driver CH340 (trang chính hãng)</a>
-      </div>
-      <div class="card">
-        <h3>CP210x (Silicon Labs)</h3>
-        <p>Dùng trên mạch DevKit chính hãng Espressif và nhiều mạch khác. Windows báo "Silicon Labs CP210x".</p>
-        <a class="btn" href="https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers" target="_blank" rel="noopener">Tải driver CP210x (trang chính hãng)</a>
-      </div>
-      <div class="card">
-        <h3>Kiểm tra cổng COM</h3>
-        <p>Cắm mạch vào máy tính → mở <b>Device Manager</b> (chuột phải nút Start) → mục <b>Ports (COM &amp; LPT)</b>. Thấy "COMx" là đã nhận. Không thấy: cài driver tương ứng hoặc đổi cáp USB (cáp chỉ sạc không truyền dữ liệu).</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== HƯỚNG DẪN ===== -->
   <section id="help">
     <div class="card prose">
-      <h3>Nạp firmware KHA Printer cho ESP32-S3 N16R8</h3>
+      <h3>Cách 1 – Cài thẳng trên thiết bị (khuyên dùng)</h3>
       <ol>
-        <li>Dùng <b>Chrome</b> hoặc <b>Edge</b> trên máy tính. Cắm cáp vào cổng <b>COM / UART</b> của mạch (không phải cổng USB-OTG dùng cho máy in).</li>
-        <li>Tab <b>Nạp firmware</b> → chọn <b>KHA Printer</b> → bấm <b>Kết nối &amp; Nạp firmware</b> → chọn cổng COM trong hộp thoại.</li>
-        <li>Nếu báo không kết nối được: giữ nút <b>BOOT</b>, bấm nút <b>RST/EN</b>, thả <b>BOOT</b> rồi thử lại. Có thể giảm tốc độ nạp xuống 115200.</li>
-        <li>Nạp xong thiết bị tự khởi động lại. Lần đầu: kết nối Wi-Fi <b>KHA-Printer-xxxx</b> (mật khẩu <b>12345678</b>) → mở <b>http://192.168.4.1</b> để cài Wi-Fi.</li>
-        <li>Đã cài Wi-Fi trước đó: giữ nguyên ô "Xóa sạch bộ nhớ" (không tick) để giữ cài đặt.</li>
-        <li>Thiết bị đã chạy firmware KHA thì <b>không cần nạp lại qua cáp</b> – firmware tự cập nhật qua Internet.</li>
+        <li>Thiết bị KHA Printer đã kết nối Wi-Fi có Internet.</li>
+        <li>Mở trang quản trị của thiết bị (địa chỉ IP hoặc <code>kha-printer-xxxx.local</code>).</li>
+        <li>Tab <b>Máy in</b> → mục <b>Kho cấu hình KHA</b> → <b>Xem danh sách cấu hình</b>.</li>
+        <li>Dòng có <b>✔ Hợp máy đang cắm</b> → bấm <b>Cài</b>. Xong – in thử bằng nút <b>In trang nhận diện</b>.</li>
       </ol>
-      <h3>Xem log thiết bị</h3>
-      <p>Tab <b>Serial Monitor</b> → tốc độ <b>115200</b> → <b>Kết nối</b>. Gửi log cho kỹ thuật viên khi cần hỗ trợ (nút <b>Lưu log</b>).</p>
+      <h3>Cách 2 – Tải tệp rồi nạp</h3>
+      <ol>
+        <li>Tại trang này bấm <b>Tải .khd</b> của dòng máy in bạn dùng (hoặc tải gói tổng).</li>
+        <li>Trang quản trị thiết bị → tab <b>Máy in</b> → <b>Cấu hình driver</b> → chọn tệp → <b>Nạp tệp cấu hình</b>.</li>
+      </ol>
+      <h3>Máy in chưa có trong danh sách?</h3>
+      <p>Gửi <b>Mã thiết bị</b> (tab Máy in → Cấu hình driver → Sao chép) và tên máy in cho KHA. KHA sẽ gửi tệp cấu hình riêng cho thiết bị của bạn.</p>
     </div>
   </section>
 </main>
-
-<footer class="wrap mut">© KHA · Firmware chỉ dùng cho thiết bị KHA · Nạp firmware dùng thư viện esptool-js (Apache-2.0) của Espressif</footer>
-
-<script type="module" src="js/app.js"></script>
+<footer class="wrap mut">© KHA · Tệp cấu hình chỉ dùng được trên thiết bị KHA Printer</footer>
+<script src="store.js"></script>
 </body>
 </html>

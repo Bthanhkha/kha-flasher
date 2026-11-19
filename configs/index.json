@@ -1,0 +1,99 @@
+{
+ "updated": "2026.11.19",
+ "bundle": "KHA-tat-ca-cau-hinh.khd",
+ "configs": [
+  {
+   "id": "canon-lbp2900",
+   "name": "Canon LBP2900 / LBP2900B",
+   "version": "1.0.0",
+   "family": "capt",
+   "verified": true,
+   "note": "Trình tự & tham số lấy từ driver Windows v3.30 (ghi qua USB/IP 19/11/2026)",
+   "file": "canon-lbp2900.khd",
+   "size": 720,
+   "match": {
+    "vid": [
+     "04A9"
+    ],
+    "pid": [
+     "2676"
+    ],
+    "mdl": [
+     "LBP2900",
+     "LBP-2900"
+    ],
+    "cmd": [
+     "CAPT"
+    ]
+   }
+  },
+  {
+   "id": "canon-lbp3000",
+   "name": "Canon LBP3000 (thử nghiệm - theo captdriver)",
+   "version": "1.0.0",
+   "family": "capt",
+   "verified": false,
+   "note": "Chưa kiểm chứng trên máy thật. Cần bản ghi pcap từ driver Windows để hoàn thiện.",
+   "file": "canon-lbp3000.khd",
+   "size": 620,
+   "match": {
+    "vid": [
+     "04A9"
+    ],
+    "pid": [],
+    "mdl": [
+     "LBP3000",
+     "LBP-3000"
+    ],
+    "cmd": [
+     "CAPT"
+    ]
+   }
+  },
+  {
+   "id": "canon-lbp3100",
+   "name": "Canon LBP3100 / LBP3108 / LBP3150",
+   "version": "1.0.0",
+   "family": "capt",
+   "verified": true,
+   "note": "Trình tự & tham số lấy từ driver Windows (ghi qua USB/IP 19/11/2026)",
+   "file": "canon-lbp3100.khd",
+   "size": 788,
+   "match": {
+    "vid": [
+     "04A9"
+    ],
+    "pid": [
+     "26DB"
+    ],
+    "mdl": [
+     "LBP3100",
+     "LBP3108",
+     "LBP3150"
+    ],
+    "cmd": [
+     "CAPT"
+    ]
+   }
+  },
+  {
+   "id": "generic-pcl",
+   "name": "Máy in PCL (HP, Brother, Kyocera, Ricoh...)",
+   "version": "1.0.0",
+   "family": "pcl",
+   "verified": false,
+   "note": "Chuyển ảnh trang (điện thoại/Windows/web) sang PCL raster 600 dpi, nén TIFF. Lệnh RAW/LPR vẫn chuyển thẳng.",
+   "file": "generic-pcl.khd",
+   "size": 561,
+   "match": {
+    "cmd": [
+     "PCL",
+     "PCLXL",
+     "PCL5",
+     "PCL5E",
+     "PCL6"
+    ]
+   }
+  }
+ ]
+}

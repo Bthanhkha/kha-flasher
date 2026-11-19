@@ -1,0 +1,57 @@
+:root{--p:#0b5cab;--p2:#e8f1fb;--bg:#f4f6fa;--card:#fff;--tx:#0f172a;--mut:#64748b;--bd:#e2e8f0;--ok:#16a34a;--err:#dc2626;--warn:#d97706}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:15px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand b{font-size:20px;color:var(--p);display:block}
+.brand small{color:var(--mut)}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button,.sub button{border:1px solid var(--bd);background:#fff;color:var(--tx);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:14px}
+nav button.on,.sub button.on{background:var(--p);color:#fff;border-color:var(--p)}
+main{padding-top:16px;padding-bottom:24px}
+section,.subpane{display:none}
+section.on,.subpane.on{display:block}
+.sub{display:flex;gap:6px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.sel{margin-left:auto;color:var(--mut)}
+.sel b{color:var(--p)}
+.filters{display:flex;gap:8px;margin-bottom:12px}
+.filters input{flex:1}
+input,select{border:1px solid var(--bd);border-radius:8px;padding:8px 10px;font-size:14px;background:#fff;color:var(--tx)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px}
+.fw{cursor:pointer;position:relative;transition:border-color .15s}
+.fw:hover{border-color:#93c5fd}
+.fw.sel{border:2px solid var(--p);box-shadow:0 0 0 3px var(--p2)}
+.fw.sel::after{content:"✓";position:absolute;top:10px;right:12px;background:var(--p);color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:13px}
+.fw h3,.card h3{margin:0 0 4px;font-size:16px;color:var(--tx)}
+.fw h3{padding-right:28px}
+.ver{font-family:ui-monospace,Consolas,monospace;color:var(--mut);font-size:13px}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:5px;background:var(--p2);color:var(--p);margin:2px 4px 2px 0}
+.tag.f{background:#fef3c7;color:#92400e}
+.fw p{color:#334155;font-size:14px;margin:8px 0}
+.meta{font-size:12px;color:var(--mut);border-top:1px solid var(--bd);padding-top:8px;margin-top:8px}
+.panel{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:14px;margin-top:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0}
+label{display:flex;gap:6px;align-items:center}
+.chk input{width:auto}
+.btn{background:var(--p);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.g{background:#fff;color:var(--p);border:1px solid var(--p)}
+.btn.big{font-size:16px;padding:12px 22px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.bar{height:10px;background:#e5e7eb;border-radius:6px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),#3b82f6);transition:width .2s}
+.mut{color:var(--mut)}
+.ok{color:var(--ok)}.err{color:var(--err)}
+.logs{margin-top:14px;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:10px 14px}
+.logs summary{cursor:pointer;font-weight:600}
+pre{white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,Consolas,monospace;font-size:12.5px;margin:8px 0 0;max-height:280px;overflow:auto}
+.term{background:#0b1220;color:#d1e7ff;border-radius:12px;padding:12px;height:56vh;max-height:none;margin-top:12px}
+.send input{flex:1}
+.warn{background:#fff7ed;border:1px solid #fdba74;color:#9a3412;border-radius:10px;padding:12px;margin-bottom:12px}
+.ownrow{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.ownrow input[type=text]{width:110px;font-family:ui-monospace,monospace}
+.prose li{margin:6px 0}
+code{background:#f1f5f9;padding:1px 5px;border-radius:4px}
+footer{padding:18px 16px 30px;font-size:13px}

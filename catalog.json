@@ -1,0 +1,24 @@
+{
+  "updated": "2026-11-19",
+  "firmware": [
+    {
+      "id": "kha-printer",
+      "name": "KHA Printer – Máy in USB thành máy in Wi-Fi",
+      "version": "1.8.2",
+      "chip": "ESP32-S3",
+      "flash": "16MB",
+      "psram": "8MB",
+      "board": "ESP32-S3 N16R8",
+      "tags": ["Máy in", "AirPrint", "Mopria"],
+      "featured": true,
+      "desc": "Biến máy in USB thường thành máy in Wi-Fi: in từ iPhone (AirPrint), Android (Mopria), Windows. Hỗ trợ Canon LBP CAPT (LBP2900, LBP3100…), máy in PCL (HP, Brother…). Tự cập nhật firmware.",
+      "notes": "Cổng USB-OTG cắm máy in; nạp firmware qua cổng UART (COM / CH340 / CP2102).",
+      "parts": [
+        { "file": "firmware/kha-printer/bootloader.bin", "addr": "0x0" },
+        { "file": "firmware/kha-printer/partition-table.bin", "addr": "0x8000" },
+        { "file": "firmware/kha-printer/ota_data_initial.bin", "addr": "0xf000" },
+        { "file": "firmware/kha-printer/kha-printer.bin", "addr": "0x20000" }
+      ]
+    }
+  ]
+}
